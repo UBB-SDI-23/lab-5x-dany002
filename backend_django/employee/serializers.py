@@ -56,7 +56,6 @@ class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employee
         fields = ('__all__')
-        #fields = ('id', 'firstName', 'lastName', 'employmentDate', 'phoneNumber', 'email', 'wage', 'team_id', 'teamEmployee')
 
 class DynamicFieldsModelSerializer(serializers.ModelSerializer):
     """
@@ -122,7 +121,6 @@ class TeamSerializer3(serializers.ModelSerializer):
     class Meta:
         model = Team
         fields = ('__all__')
-        #fields = ('team_id','created', 'nameOfTeam', 'freePlaces', 'purpose', 'admin', 'rating')
 
 
 class ProjectTeamSerializer(DynamicFieldsModelSerializer):
@@ -153,13 +151,6 @@ class TeamsByAvgWageSerializer(serializers.ModelSerializer):
         fields = ('id', 'created', 'nameOfTeam', 'freePlaces', 'purpose', 'admin', 'rating', 'avg_wage')
 
 
-# class ProjectsByAvgDifficultySerializer(serializers.ModelSerializer):
-#     avg_difficulty = serializers.FloatField()
-#
-#     class Meta:
-#         model = Project
-#         fields = ('id', 'created', 'nameOfProject', 'clientName', 'budget', 'description', 'status', 'avg_difficulty')
-
 class ProjectsByAvgDifficultySerializer(serializers.ModelSerializer):
     avg_difficulty = serializers.SerializerMethodField()
 
@@ -174,7 +165,6 @@ class ProjectsByAvgDifficultySerializer(serializers.ModelSerializer):
 
 class EmployeesByAvgDifficultySerializer(serializers.ModelSerializer):
     avg_difficulty = serializers.SerializerMethodField()
-    #team = TeamSerializer(read_only=True, many=True)
     class Meta:
         model = Employee
         fields = ('id', 'firstName', 'lastName', 'employmentDate', 'phoneNumber', 'email', 'wage', 'avg_difficulty')
@@ -193,7 +183,43 @@ class EmployeeSerializer5(serializers.ModelSerializer):
 
 
 class TeamEmployeeSerializer(DynamicFieldsModelSerializer):
-
     class Meta:
         model = Employee
         fields = ['team_id']
+
+
+class TaskSerializerWithTeamAndWithoutProject(serializers.ModelSerializer):
+    created = serializers.DateTimeField()
+    nameOfTask = serializers.CharField()
+    difficulty = serializers.IntegerField()
+    team = TeamSerializer(read_only=True)
+    class Meta:
+        model = Task
+        fields = ('created', 'nameOfTask', 'difficulty', 'team')
+
+
+class ProjectDetailSerializer(DynamicFieldsModelSerializer):
+    projectTask = TaskSerializerWithTeamAndWithoutProject(many=True, read_only=True)
+    class Meta:
+        model = Project
+        fields = ['id','created','nameOfProject','clientName','budget','description','status','projectTask']
+
+
+class TaskSerializerWithProjectAndWithoutTeam(serializers.ModelSerializer):
+    created = serializers.DateTimeField()
+    nameOfTask = serializers.CharField()
+    difficulty = serializers.IntegerField()
+    project = ProjectSerializer(read_only=True)
+    class Meta:
+        model = Task
+        fields = ('created', 'nameOfTask', 'difficulty', 'project')
+
+
+class TeamDetailSerializer(DynamicFieldsModelSerializer):
+    teamTask = TaskSerializerWithProjectAndWithoutTeam(many=True, read_only=True)
+
+    teamEmployee = EmployeeSerializerWithoutTeam(many=True, read_only=True)
+
+    class Meta:
+        model = Team
+        fields = ['nameOfTeam', 'freePlaces', 'purpose', 'admin', 'rating', 'teamTask', 'teamEmployee']

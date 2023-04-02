@@ -7,18 +7,13 @@ from django.forms.models import model_to_dict
 from employee.models import Employee, Team, Task, Project
 from employee.serializers import EmployeeSerializer, TeamSerializer, DynamicEmployeeSerializer, \
     DynamicTeamSerializer, ProjectSerializer, ProjectTeamSerializer, TeamsByAvgWageSerializer, \
-    ProjectsByAvgDifficultySerializer, TaskSerializer2, EmployeesByAvgDifficultySerializer, TeamEmployeeSerializer
+    ProjectsByAvgDifficultySerializer, TaskSerializer2, EmployeesByAvgDifficultySerializer, TeamEmployeeSerializer, \
+    ProjectDetailSerializer, TeamDetailSerializer
 
 
 class TeamList(generics.ListCreateAPIView):
     queryset = Team.objects.all()
     serializer_class = TeamSerializer
-
-
-class TeamDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Team.objects.all()
-    serializer_class = DynamicTeamSerializer
-
 
 class TaskList(generics.ListCreateAPIView):
     queryset = Task.objects.all()
@@ -32,7 +27,6 @@ class TaskDetail(generics.RetrieveUpdateDestroyAPIView):
 
 class EmployeeList(generics.ListCreateAPIView):
     queryset = Employee.objects.all()
-    #serializer_class = EmployeeSerializer
     serializer_class = DynamicEmployeeSerializer
 
 
@@ -56,22 +50,19 @@ class ProjectList(generics.ListCreateAPIView):
     queryset = Project.objects.all()
     serializer_class = ProjectSerializer
 
-class ProjectDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Project.objects.all()
-    serializer_class = ProjectSerializer
+class ProjectDetailView(APIView):
+    lookup_url_kwarg = "pk"
+    def get_project(self, pk):
+        try:
+            return Project.objects.get(id=pk)
+        except Project.DoesNotExist:
+            raise Http404
 
-
-# class ProjectTeamsList(generics.RetrieveUpdateDestroyAPIView):
-#     serializer_class = ProjectTeamSerializer
-#     lookup_url_kwarg = "pk"
-#     def get_queryset(self):
-#         queryset = Task.objects.all()
-#         #print("HI")
-#         primaryKey = self.kwargs.get(self.lookup_url_kwarg)
-#         queryset = queryset.filter(project_id=primaryKey)
-#         #print(len(queryset))
-#         #print(queryset)
-#         return queryset
+    def get(self, request, pk, format=None):
+        project = self.get_project(pk)
+        serializer = ProjectDetailSerializer(project)
+        print(serializer.data)
+        return Response(serializer.data)
 
 class ProjectTeamsList(APIView):
 
@@ -133,41 +124,6 @@ class EmployeesByAvgDifficulty(APIView):
         serializer = EmployeesByAvgDifficultySerializer(queryset, many=True)
         return Response(serializer.data)
 
-# class EmployeeTeamView(APIView):
-#
-#     def get_object(self, pk):
-#         try:
-#             return Team.objects.get(pk=pk)
-#         except Team.DoesNotExist:
-#             raise Http404
-#
-#     def get_employee(self, pk):
-#         try:
-#             return Employee.objects.get(pk=pk)
-#         except Employee.DoesNotExist:
-#             raise Http404
-#
-#     def put(self, request, pk, format=None):
-#         team = self.get_object(pk)
-#         employee_ids = request.data['list_of_ids']
-#         print(employee_ids)
-#         data_with_employees = []
-#         for i in range(len(employee_ids)):
-#             employee = self.get_employee(employee_ids[i])
-#             employee.team_id = pk
-#             json_data = model_to_dict(employee)
-#             data_with_employees.append(json_data)
-#             #print(employee.phoneNumber)
-#         print(data_with_employees)
-#         employee = self.get_employee(employee_ids[0])
-#         serializer = TeamSerializer(team,data=data_with_employees,many=True)
-#
-#         if serializer.is_valid():
-#             serializer.save()
-#             return Response(serializer.data)
-#         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-#
-
 class EmployeeTeamView(APIView):
     def get_object(self, pk):
         try:
@@ -181,23 +137,6 @@ class EmployeeTeamView(APIView):
         except Employee.DoesNotExist:
             raise Http404
 
-    # def put(self, request, pk, format=None):
-    #     team = self.get_object(pk)
-    #     employee_ids = request.data['list_of_ids']
-    #     print(employee_ids)
-    #     employees = []
-    #     for i in range(len(employee_ids)):
-    #         employee = self.get_employee(employee_ids[i])
-    #         employee.team_id = pk
-    #         employees.append(employee)
-    #     print({'employees' :employees})
-    #     serializer = TeamEmployeeSerializer(employees[0], data={'employees': employees})
-    #
-    #     if serializer.is_valid():
-    #         serializer.save()
-    #         return Response(serializer.data)
-    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
     def post(self, request, pk, format=None):
         team = self.get_object(pk)
         employee_ids = request.data['list_of_ids']
@@ -207,13 +146,23 @@ class EmployeeTeamView(APIView):
             employee.team_id = pk
             employee.save()
             employees.append(employee)
-
-
         serializer = TeamEmployeeSerializer(employees[0],data=model_to_dict(employees[0]))
-        #serializer = TeamEmployeeSerializer(employees[0],data={'employees' : model_to_dict(employees[0])})
-        #print({'employees' : [model_to_dict(employees[0]),model_to_dict(employees[1])]})
 
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+class TeamDetailView(APIView):
+
+    def get_team(self, pk):
+        try:
+            return Team.objects.get(id=pk)
+        except Team.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        team = self.get_team(pk)
+        serializer = TeamDetailSerializer(team)
+
+        return Response(serializer.data)

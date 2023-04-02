@@ -41,8 +41,14 @@ INSTALLED_APPS = [
     "employee",
     "django_filters",
     'corsheaders',
+    'rest_framework_swagger',
+    'drf_yasg',
 ]
 
+
+REST_FRAMEWORK = {
+    'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema'  # <-- Here
+}
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
