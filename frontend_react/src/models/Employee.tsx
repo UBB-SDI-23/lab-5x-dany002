@@ -1,8 +1,8 @@
 import {Team} from "./Team";
 
 export interface Employee{
-    id: number;
-    created: Date;
+    id?: number;
+    created?: Date;
     firstName: string;
     lastName: string;
     employmentDate: Date;

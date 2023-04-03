@@ -2,7 +2,7 @@ import {Team} from "./Team";
 import {Project} from "./Project";
 
 export interface Task{
-    id: number;
+    id?: number;
     created: Date;
     nameOfTask: string;
     difficulty: number;
