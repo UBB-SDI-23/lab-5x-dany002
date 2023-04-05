@@ -163,7 +163,7 @@ class TeamDetailView(APIView):
 
     def put(self, request, pk, format=None):
         team = self.get_team(pk)
-        serializer = TeamDetailSerializer(team, data=request.data)
+        serializer = TeamSerializer(team, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data)

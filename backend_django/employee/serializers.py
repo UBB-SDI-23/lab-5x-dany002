@@ -144,12 +144,15 @@ class EmployeeWageSerializer(serializers.ModelSerializer):
 
 
 class TeamsByAvgWageSerializer(serializers.ModelSerializer):
-    avg_wage = serializers.FloatField()
+    avg_wage = serializers.SerializerMethodField()
 
     class Meta:
         model = Team
         fields = ('id', 'created', 'nameOfTeam', 'freePlaces', 'purpose', 'admin', 'rating', 'avg_wage')
 
+    def get_avg_wage(self, obj):
+        avg_wagee = obj.teamEmployee.aggregate(Avg('wage'))['wage__avg']
+        return avg_wagee if avg_wagee else 0
 
 class ProjectsByAvgDifficultySerializer(serializers.ModelSerializer):
     avg_difficulty = serializers.SerializerMethodField()

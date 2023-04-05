@@ -9,7 +9,7 @@ import {
     CircularProgress,
     Container,
     IconButton,
-    Tooltip
+    Tooltip, Button
 } from "@mui/material";
 
 import { Link } from "react-router-dom";
@@ -53,6 +53,9 @@ export const AllTeams = () => {
                         <AddIcon color="primary" />
                     </Tooltip>
                 </IconButton>
+            )}
+            {!loading && (
+                <Button type={"submit"} component={Link} sx={{mr : 3}} to={'by-avg-wage/'}>Check this statistical report by avg-wage</Button>
             )}
             {!loading && teams.length > 0 && (
                 <TableContainer component={Paper}>

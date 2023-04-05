@@ -14,6 +14,8 @@ import {AllTeams} from "./components/teams/AllTeams";
 import {TeamDetails} from "./components/teams/TeamDetail";
 import {TeamDelete} from "./components/teams/TeamDelete";
 import {TeamAdd} from "./components/teams/TeamAdd";
+import {TeamEdit} from "./components/teams/TeamEdit";
+import {TeamsByAvgWage} from "./components/teams/TeamsByAvgWage";
 
 function App() {
     return (
@@ -24,9 +26,10 @@ function App() {
                     <Route path="/" element={<AppHome />} />
                     <Route path="/teams" element={<AllTeams />} />
                     <Route path="/teams/:teamId/details" element={<TeamDetails />} />
-                    <Route path="/teams/:teamId/edit" element={<TeamDetails />} />
+                    <Route path="/teams/:teamId/edit" element={<TeamEdit />} />
                     <Route path="/teams/:teamId/delete" element={<TeamDelete />} />
                     <Route path="/teams/add" element={<TeamAdd />} />
+                    <Route path="/teams/by-avg-wage/" element={<TeamsByAvgWage />}/>
                 </Routes>
             </Router>
         </React.Fragment>
