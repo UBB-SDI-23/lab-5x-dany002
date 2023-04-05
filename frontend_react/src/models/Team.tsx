@@ -1,4 +1,6 @@
 import {Project} from "./Project";
+import {Task} from "./Task";
+import {Employee} from "./Employee";
 
 export interface Team{
     id?: number;
@@ -8,5 +10,7 @@ export interface Team{
     purpose: string;
     admin: string;
     rating: number;
-    projects?: Project[];
+    teamTask?: Task[];
+    //task?: Task;
+    teamEmployee?: Employee[];
 }

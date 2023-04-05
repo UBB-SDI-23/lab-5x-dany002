@@ -23,6 +23,7 @@ import React, {useEffect, useState} from "react";
 import {Team} from "../../models/Team";
 import {BACKEND_API_URL} from "../../constants";
 
+
 export const AllTeams = () => {
     const [loading, setLoading] = useState(false);
     const [teams, setTeams] = useState<Team[]>([])
@@ -36,11 +37,12 @@ export const AllTeams = () => {
                 setLoading(false);
             })
     }, [])
-    // @ts-ignore
-    return (
-        <Container maxWidth="xl">
 
-            <p>s</p>
+
+
+    return (
+        <Container sx={{maxWidth:"xl", padding: '4em'}}>
+
             <h1>All teams</h1>
 
             {loading && <CircularProgress />}
@@ -74,7 +76,7 @@ export const AllTeams = () => {
                                         {index+1}
                                     </TableCell>
                                     <TableCell component="th" scope="row">
-                                        <Link to={`/teams/${team.id}`} title={"View team details"}>
+                                        <Link to={`/teams/${team.id}/details`} title={"View team details"}>
                                             {team.nameOfTeam}
                                         </Link>
                                     </TableCell>

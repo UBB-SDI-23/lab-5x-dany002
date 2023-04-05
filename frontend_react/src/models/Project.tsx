@@ -1,4 +1,5 @@
 import {Team} from "./Team";
+import {Task} from "./Task";
 
 export interface Project{
     id?: number;
@@ -9,4 +10,5 @@ export interface Project{
     description: string;
     status: string;
     teams?: Team[];
+    task?: Task;
 }

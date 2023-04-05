@@ -102,7 +102,7 @@ class EmployeeSerializerWithoutTeam(serializers.ModelSerializer):
 
     class Meta:
         model = Employee
-        fields = ('id', 'firstName', 'lastName', 'employmentDate', 'phoneNumber', 'email', 'wage')
+        fields = ('id', 'created', 'firstName', 'lastName', 'employmentDate', 'phoneNumber', 'email', 'wage')
 
 
 class DynamicTeamSerializer(DynamicFieldsModelSerializer):
@@ -212,7 +212,7 @@ class TaskSerializerWithProjectAndWithoutTeam(serializers.ModelSerializer):
     project = ProjectSerializer(read_only=True)
     class Meta:
         model = Task
-        fields = ('created', 'nameOfTask', 'difficulty', 'project')
+        fields = ('id','created', 'nameOfTask', 'difficulty', 'project')
 
 
 class TeamDetailSerializer(DynamicFieldsModelSerializer):
@@ -222,4 +222,4 @@ class TeamDetailSerializer(DynamicFieldsModelSerializer):
 
     class Meta:
         model = Team
-        fields = ['nameOfTeam', 'freePlaces', 'purpose', 'admin', 'rating', 'teamTask', 'teamEmployee']
+        fields = ['created','nameOfTeam', 'freePlaces', 'purpose', 'admin', 'rating', 'teamTask', 'teamEmployee']

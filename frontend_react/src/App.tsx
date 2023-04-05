@@ -11,6 +11,9 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { AppHome } from "./components/AppHome";
 import { AppMenu } from "./components/AppMenu";
 import {AllTeams} from "./components/teams/AllTeams";
+import {TeamDetails} from "./components/teams/TeamDetail";
+import {TeamDelete} from "./components/teams/TeamDelete";
+import {TeamAdd} from "./components/teams/TeamAdd";
 
 function App() {
     return (
@@ -20,6 +23,10 @@ function App() {
                 <Routes>
                     <Route path="/" element={<AppHome />} />
                     <Route path="/teams" element={<AllTeams />} />
+                    <Route path="/teams/:teamId/details" element={<TeamDetails />} />
+                    <Route path="/teams/:teamId/edit" element={<TeamDetails />} />
+                    <Route path="/teams/:teamId/delete" element={<TeamDelete />} />
+                    <Route path="/teams/add" element={<TeamAdd />} />
                 </Routes>
             </Router>
         </React.Fragment>
