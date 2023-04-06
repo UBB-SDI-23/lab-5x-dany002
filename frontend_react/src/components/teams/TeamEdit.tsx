@@ -31,17 +31,20 @@ const useStyles = makeStyles({
 
 
 export const TeamEdit = () => {
-    const { teamId } = useParams();
-    const [team, setTeam] = useState<Team>();
-    const [loading, setLoading] = useState(false);
 
-    const [teamss, setTeamss] = useState<Team>({
+    const navigate = useNavigate();
+
+    const { teamId } = useParams();
+    const [team, setTeam] = useState<Team>({
         nameOfTeam: "",
         freePlaces: 0,
         purpose: "",
         admin: "",
         rating: 0
     });
+
+    const [loading, setLoading] = useState(false);
+
 
     useEffect(() => {
         const url = `${BACKEND_API_URL}/teams/${teamId}`
@@ -63,15 +66,18 @@ export const TeamEdit = () => {
 
     const classes = useStyles();
 
-
     const updateTeam = async (event: { preventDefault: () => void }) => {
         event.preventDefault();
         try {
-            await axios.put(`${BACKEND_API_URL}/teams/${teamId}`, team);
+            setTeam(team);
+            const response = await axios.put(`${BACKEND_API_URL}/teams/${teamId}/`, team);
+            navigate("/teams");
         } catch (error) {
             console.log(error);
         }
     };
+
+
 
     return (
         <Container className={classes.container}>
@@ -99,7 +105,7 @@ export const TeamEdit = () => {
                             variant="outlined"
                             fullWidth
                             sx={{ mb: 2 }}
-                            onChange={(event) => setTeamss({ ...teamss, nameOfTeam: event.target.value })}
+                            onChange={(event) => setTeam({ ...team, nameOfTeam: event.target.value })}
                         />
                         <TextField
                             id="freePlaces"
@@ -107,7 +113,7 @@ export const TeamEdit = () => {
                             variant="outlined"
                             fullWidth
                             sx={{ mb: 2 }}
-                            onChange={(event) => setTeamss({ ...teamss, freePlaces: parseInt(event.target.value) })}
+                            onChange={(event) => setTeam({ ...team, freePlaces: parseInt(event.target.value) })}
                         />
 
                         <TextField
@@ -116,7 +122,7 @@ export const TeamEdit = () => {
                             variant="outlined"
                             fullWidth
                             sx={{ mb: 2 }}
-                            onChange={(event) => setTeamss({ ...teamss, purpose: event.target.value })}
+                            onChange={(event) => setTeam({ ...team, purpose: event.target.value })}
                         />
 
                         <TextField
@@ -125,7 +131,7 @@ export const TeamEdit = () => {
                             variant="outlined"
                             fullWidth
                             sx={{ mb: 2 }}
-                            onChange={(event) => setTeamss({ ...teamss, admin: event.target.value })}
+                            onChange={(event) => setTeam({ ...team, admin: event.target.value })}
                         />
 
                         <TextField
@@ -134,7 +140,7 @@ export const TeamEdit = () => {
                             variant="outlined"
                             fullWidth
                             sx={{ mb: 2 }}
-                            onChange={(event) => setTeamss({ ...teamss, rating: parseInt(event.target.value) })}
+                            onChange={(event) => setTeam({ ...team, rating: parseInt(event.target.value) })}
                         />
                         <Button type="submit">Update team</Button>
                     </form>
