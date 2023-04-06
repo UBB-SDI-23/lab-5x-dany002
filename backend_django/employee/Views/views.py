@@ -11,59 +11,6 @@ from employee.serializers import EmployeeSerializer, TeamSerializer, DynamicEmpl
     ProjectDetailSerializer, TeamDetailSerializer
 
 
-class TeamList(generics.ListCreateAPIView):
-    queryset = Team.objects.all()
-    serializer_class = TeamSerializer
-
-class TaskList(generics.ListCreateAPIView):
-    queryset = Task.objects.all()
-    serializer_class = TaskSerializer2
-
-
-class TaskDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Task.objects.all()
-    serializer_class = TaskSerializer2
-
-
-class EmployeeList(generics.ListCreateAPIView):
-    queryset = Employee.objects.all()
-    serializer_class = DynamicEmployeeSerializer
-
-
-class EmployeeDetail(generics.RetrieveUpdateDestroyAPIView):
-    queryset = Employee.objects.all()
-    serializer_class = EmployeeSerializer
-
-
-class MinimumWage(generics.ListAPIView):
-    serializer_class = EmployeeSerializer
-    lookup_url_kwarg = "wage"
-
-    def get_queryset(self):
-        queryset = Employee.objects.all()
-        wage = self.kwargs.get(self.lookup_url_kwarg)
-        if wage is not None:
-            queryset = queryset.filter(wage__gt=wage)
-        return queryset
-
-class ProjectList(generics.ListCreateAPIView):
-    queryset = Project.objects.all()
-    serializer_class = ProjectSerializer
-
-class ProjectDetailView(APIView):
-    lookup_url_kwarg = "pk"
-    def get_project(self, pk):
-        try:
-            return Project.objects.get(id=pk)
-        except Project.DoesNotExist:
-            raise Http404
-
-    def get(self, request, pk, format=None):
-        project = self.get_project(pk)
-        serializer = ProjectDetailSerializer(project)
-        print(serializer.data)
-        return Response(serializer.data)
-
 class ProjectTeamsList(APIView):
 
     def get_object(self, pk):
@@ -152,32 +99,4 @@ class EmployeeTeamView(APIView):
             serializer.save()
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-class TeamDetailView(APIView):
-
-    def get_team(self, pk):
-        try:
-            return Team.objects.get(id=pk)
-        except Team.DoesNotExist:
-            raise Http404
-
-    def put(self, request, pk, format=None):
-        team = self.get_team(pk)
-        serializer = TeamSerializer(team, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    def get(self, request, pk, format=None):
-        team = self.get_team(pk)
-        serializer = TeamDetailSerializer(team)
-
-        return Response(serializer.data)
-
-    def delete(self, request, pk, format=None):
-        team = self.get_team(pk)
-        team.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
-
 
