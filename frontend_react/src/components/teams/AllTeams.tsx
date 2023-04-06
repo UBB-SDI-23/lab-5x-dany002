@@ -27,7 +27,8 @@ import {BACKEND_API_URL} from "../../constants";
 export const AllTeams = () => {
     const [loading, setLoading] = useState(false);
     const [teams, setTeams] = useState<Team[]>([])
-
+    const etc = `${BACKEND_API_URL}/teams`;
+    console.log(etc);
     useEffect(() => {
         setLoading(true);
         try{
