@@ -30,12 +30,17 @@ export const AllTeams = () => {
 
     useEffect(() => {
         setLoading(true);
-        fetch(`${BACKEND_API_URL}/teams`)
-            .then((response) => response.json())
-            .then((data) => {
-                setTeams(data);
-                setLoading(false);
-            })
+        try{
+            fetch(`${BACKEND_API_URL}/teams`)
+                .then((response) => response.json())
+                .then((data) => {
+                    setTeams(data);
+                    setLoading(false);
+                })
+        }
+        catch (error){
+            console.log(error);
+        }
     }, [])
 
 
