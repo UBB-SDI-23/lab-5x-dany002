@@ -39,6 +39,20 @@ export const AllTeams = () => {
     }, [])
 
 
+    const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
+
+    const handleSortByAdmin = () => {
+        const sortedTeams = [...teams].sort((a, b) => {
+            if (sortOrder === 'asc') {
+                return a.admin.localeCompare(b.admin);
+            } else {
+                return b.admin.localeCompare(a.admin);
+            }
+        });
+        setTeams(sortedTeams);
+        setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
+    };
+
 
     return (
         <Container sx={{maxWidth:"xl", padding: '4em'}}>
@@ -57,6 +71,7 @@ export const AllTeams = () => {
             {!loading && (
                 <Button type={"submit"} component={Link} sx={{mr : 3}} to={'by-avg-wage/'}>Check this statistical report by avg-wage</Button>
             )}
+            <Button onClick={handleSortByAdmin}>Sort by Admin</Button>
             {!loading && teams.length > 0 && (
                 <TableContainer component={Paper}>
                     <Table sx={{ minWidth: 650 }}  aria-label="simple table">
