@@ -6,7 +6,7 @@ from employee.models import Team
 from employee.serializers import TeamSerializer, TeamDetailSerializer
 
 class TeamList(generics.ListCreateAPIView):
-    queryset = Team.objects.all()
+    queryset = Team.objects.all()[:100]
     serializer_class = TeamSerializer
 
 
