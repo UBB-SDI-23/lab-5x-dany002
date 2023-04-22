@@ -7,7 +7,7 @@ if __name__ == "__main__":
     from faker import Faker
 
     fake = Faker()
-    n = 5
+    n = 1000000
     with open('populate_team.sql', 'w') as f:
         f.write('INSERT INTO employee_team(created,"nameOfTeam","freePlaces",purpose,admin,rating) VALUES \n')
         for _ in range(n-1):
