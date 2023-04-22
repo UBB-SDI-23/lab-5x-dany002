@@ -1,6 +1,6 @@
-INSERT INTO employee_team(created,nameOfTeam,freePlaces,purpose,admin,rating) VALUES 
-('22/04/2023','Matthew Bowers',55,'Receive end break job size realize. Condition carry explain reveal nation. Win it police represent difference effort fish. Throughout raise nice check prepare close subject table.','Robert Robinson',1),
-('22/04/2023','Mark Willis',42,'Reach feel tax shoulder foreign story. Popular call form. Candidate require doctor argue site recently certain. Material mean item sound role rise capital.','Susan Cabrera',1),
-('22/04/2023','Ryan Mcdaniel',0,'Social follow office mention brother.','Vincent Johnson',1),
-('22/04/2023','Danny Greene',84,'Respond example send travel foot court. Group season shoulder.','James Sweeney',4),
-('22/04/2023','Timothy Franklin',83,'Continue guess network production coach woman road character. Difficult direction environmental between. Rich player whom billion building forget suffer six. Myself now study property national number discuss.','Amanda Harris',3);
+INSERT INTO employee_team(created,"nameOfTeam","freePlaces",purpose,admin,rating) VALUES 
+('22/04/2023','Ryan Hartman',89,'Ready century base avoid heavy investment. Opportunity pretty left drug natural.','Cynthia Marsh',9),
+('22/04/2023','Francisco Barrett',17,'Mouth detail factor. Radio federal school color pass. Social one very end.','Michael Scott',2),
+('22/04/2023','Krystal Phillips',36,'Skin realize pattern I like turn gas. Simply hot small interesting. Position yourself dream picture trouble government member.','Dorothy Castro',9),
+('22/04/2023','Rebecca Chambers',52,'Vote show other knowledge billion. Past necessary throughout off.','Steven Davila',3),
+('22/04/2023','Jeffery Brooks',94,'Cost establish share. Message without front learn lose.','Benjamin Adams',9);
