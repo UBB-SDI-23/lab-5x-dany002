@@ -9,6 +9,5 @@ export interface Project{
     budget: number;
     description: string;
     status: string;
-    teams?: Team[];
-    task?: Task;
+    projectTask?: Task[];
 }

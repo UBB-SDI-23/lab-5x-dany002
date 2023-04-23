@@ -3,28 +3,28 @@ import { Container } from "@mui/system";
 import { useEffect, useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { BACKEND_API_URL } from "../../constants";
-import { Team } from "../../models/Team";
+import {Project} from "../../models/Project";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import axios from "axios";
 
-export const TeamAdd = () => {
+export const ProjectAdd = () => {
     const navigate = useNavigate();
 
-    const [team, setTeam] = useState<Team>({
-        nameOfTeam: "",
-        freePlaces: 0,
-        purpose: "",
-        admin: "",
-        rating: 0
+    const [project, setProject] = useState<Project>({
+        nameOfProject: "",
+        clientName: "",
+        budget: 0,
+        description: "",
+        status: ""
     });
 
-    const addTeam = async (event: { preventDefault: () => void }) => {
+    const addProject = async (event: { preventDefault: () => void }) => {
         event.preventDefault();
         try {
-            await axios.post(`${BACKEND_API_URL}/teams/`, team);
-            navigate("/teams");
+            await axios.post(`${BACKEND_API_URL}/projects/`, project);
+            navigate("/projects");
         } catch (error) {
             console.log(error);
         }
@@ -34,51 +34,52 @@ export const TeamAdd = () => {
         <Container>
             <Card>
                 <CardContent>
-                    <IconButton component={Link} sx={{ mr: 3 }} to={`/teams`}>
+                    <IconButton component={Link} sx={{ mr: 3 }} to={`/projects`}>
                         <ArrowBackIcon />
                     </IconButton>{" "}
-                    <form onSubmit={addTeam}>
+                    <form onSubmit={addProject}>
                         <TextField
-                            id="nameOfTeam"
+                            id="nameOfProject"
                             label="Name"
                             variant="outlined"
                             fullWidth
                             sx={{ mb: 2 }}
-                            onChange={(event) => setTeam({ ...team, nameOfTeam: event.target.value })}
+                            onChange={(event) => setProject({ ...project, nameOfProject: event.target.value })}
                         />
                         <TextField
-                            id="purpose"
-                            label="Purpose"
+                            id="clientName"
+                            label="clientName"
                             variant="outlined"
                             fullWidth
                             sx={{ mb: 2 }}
-                            onChange={(event) => setTeam({ ...team, purpose: event.target.value })}
+                            onChange={(event) => setProject({ ...project, clientName: event.target.value })}
                         />
                         <TextField
-                            id="freePlaces"
-                            label="Free places"
+                            id="budget"
+                            label="budget"
                             variant="outlined"
                             fullWidth
                             sx={{ mb: 2 }}
-                            onChange={(event) => setTeam({ ...team, freePlaces: parseInt(event.target.value)})}
+                            onChange={(event) => setProject({ ...project, budget: parseInt(event.target.value)})}
                         />
                         <TextField
-                            id="admin"
-                            label="Admin"
+                            id="description"
+                            label="description"
                             variant="outlined"
                             fullWidth
                             sx={{ mb: 2 }}
-                            onChange={(event) => setTeam({ ...team, admin: event.target.value })}
+                            onChange={(event) => setProject({ ...project, description: event.target.value })}
                         />
                         <TextField
-                            id="rating"
-                            label="Rating"
+                            id="status"
+                            label="status"
                             variant="outlined"
                             fullWidth
                             sx={{ mb: 2 }}
-                            onChange={(event) => setTeam({ ...team, rating: parseInt(event.target.value)})}
+                            onChange={(event) => setProject({ ...project, status: event.target.value })}
                         />
-                        <Button type="submit">Add Team</Button>
+
+                        <Button type="submit">Add Project</Button>
                     </form>
                 </CardContent>
                 <CardActions></CardActions>

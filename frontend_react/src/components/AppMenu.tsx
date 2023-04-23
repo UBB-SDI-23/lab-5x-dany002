@@ -34,6 +34,15 @@ export const AppMenu = () => {
                         startIcon={<LocalLibraryIcon />}>
                         Teams
                     </Button>
+                    <Button
+                        variant={path.startsWith("/projects") ? "outlined" : "text"}
+                        to="/projects"
+                        component={Link}
+                        color="inherit"
+                        sx={{ mr: 5 }}
+                        startIcon={<LocalLibraryIcon />}>
+                        Projects
+                    </Button>
                 </Toolbar>
             </AppBar>
         </Box>
