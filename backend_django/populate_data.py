@@ -22,3 +22,4 @@ if __name__ == "__main__":
 
         for i in range(n):
             f.write("'" + date.today().strftime("%Y-%m-%d") + "','" + fake.name() + "','" + fake.name() + "'," + random.randint(0,100000).__str__() + ",'" + fake.text(max_nb_chars=50).replace('\n',' ') + "','" + fake.random_element(elements=statues) + "'\n")
+            print(i, "/", n)
