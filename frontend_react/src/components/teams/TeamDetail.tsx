@@ -41,6 +41,7 @@ export const TeamDetails = () => {
             setLoading(true);
             await axios.get(url)
                 .then(response => {
+                    console.log(response.data);
                     const team = response.data;
                     setTeam(team);
                     setLoading(false);
@@ -60,7 +61,7 @@ export const TeamDetails = () => {
         <Container className={classes.container}>
             <Card className={classes.card}>
                 <CardContent>
-                <IconButton component={Link} sx={{ mr: 3 }} to={`/teams`}>
+                <IconButton component={Link} sx={{ mr: 3 }} to={`/teams/page/1`}>
                     <ArrowBackIcon />
                 </IconButton>{" "}
                 <h1>Team Details</h1>

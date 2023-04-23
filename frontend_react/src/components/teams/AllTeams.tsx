@@ -9,10 +9,10 @@ import {
     CircularProgress,
     Container,
     IconButton,
-    Tooltip, Button
+    Tooltip, Button, Pagination
 } from "@mui/material";
 
-import { Link } from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
@@ -27,22 +27,28 @@ import {BACKEND_API_URL} from "../../constants";
 export const AllTeams = () => {
     const [loading, setLoading] = useState(false);
     const [teams, setTeams] = useState<Team[]>([])
-    const etc = `${BACKEND_API_URL}/teams`;
-    console.log(etc);
+    const { page } = useParams();
+    const navigate = useNavigate();
+    const [currentPage, setCurrentPage] = useState(Number(page) || 1);
+    const [totalPages, setTotalPages] = useState(0);
+    const [pageSize, setPageSize] = useState(5);
+
     useEffect(() => {
         setLoading(true);
         try{
-            fetch(`${BACKEND_API_URL}/teams`)
+            fetch(`${BACKEND_API_URL}/teams/page/${currentPage}`)
                 .then((response) => response.json())
                 .then((data) => {
-                    setTeams(data);
+                    setTeams(data["team_members"]);
+                    setTotalPages(data["total_pages"]);
+                    setPageSize(data["items_per_page"]);
                     setLoading(false);
                 })
         }
         catch (error){
             console.log(error);
         }
-    }, [])
+    }, [currentPage]);
 
 
     const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc');
@@ -58,7 +64,6 @@ export const AllTeams = () => {
         setTeams(sortedTeams);
         setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
     };
-
 
     return (
         <Container sx={{maxWidth:"xl", padding: '4em'}}>
@@ -97,7 +102,7 @@ export const AllTeams = () => {
                             {teams.map((team, index) => (
                                 <TableRow key={team.id}>
                                     <TableCell component="th" scope="row">
-                                        {index+1}
+                                        {index + 1 + ((currentPage-1) * pageSize)}
                                     </TableCell>
                                     <TableCell component="th" scope="row">
                                         <Link to={`/teams/${team.id}/details`} title={"View team details"}>
@@ -133,6 +138,15 @@ export const AllTeams = () => {
                     </Table>
                 </TableContainer>
             )}
+            <Pagination
+                count={totalPages}
+                page={currentPage}
+                onChange={(event, value) => {
+                    setCurrentPage(value);
+                    navigate(`/teams/page/${value}`);
+                    }
+                }
+            />
         </Container>
     );
 };

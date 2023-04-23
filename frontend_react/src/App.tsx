@@ -29,7 +29,6 @@ function App() {
                 <AppMenu />
                 <Routes>
                     <Route path="/" element={<AppHome />} />
-                    <Route path="/teams" element={<AllTeams />} />
                     <Route path="/teams/:teamId/details" element={<TeamDetails />} />
                     <Route path="/teams/:teamId/edit" element={<TeamEdit />} />
                     <Route path="/teams/:teamId/delete" element={<TeamDelete />} />
@@ -40,6 +39,7 @@ function App() {
                     <Route path="/projects/:projectId/edit" element={<ProjectEdit />} />
                     <Route path="/projects/:projectId/delete" element={<ProjectDelete />} />
                     <Route path="/projects/add" element={<ProjectAdd />} />
+                    <Route path="/teams/page/:page" element={<AllTeams />} />
                 </Routes>
             </Router>
         </React.Fragment>
