@@ -8,7 +8,7 @@ from employee.serializers import ProjectSerializer, ProjectDetailSerializer
 
 
 class ProjectList(generics.ListCreateAPIView):
-    queryset = Project.objects.all()
+    queryset = Project.objects.all()[:100]
     serializer_class = ProjectSerializer
 
 class ProjectDetailView(APIView):
