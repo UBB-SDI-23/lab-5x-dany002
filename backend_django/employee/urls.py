@@ -1,5 +1,6 @@
 from django.urls import path
 from employee.Views import EmployeeViews, TeamViews, TaskViews, ProjectViews, views
+from employee.Views.TeamViews import get_teams_pagination
 
 urlpatterns = [
     path('employees/', EmployeeViews.EmployeeList.as_view()),
@@ -15,7 +16,8 @@ urlpatterns = [
     path('projects/by-avg-difficulty/', views.ProjectsByAvgDifficulty.as_view(), name='projects-by-avg-difficulty'),
     path('teams/by-avg-wage/', views.TeamsByAvgWage.as_view(), name='teams-by-avg-wage'),
     path('employees/by-avg-difficulty/', views.EmployeesByAvgDifficulty.as_view(), name='employees-by-avg-difficulty'),
-    path('teams/<int:pk>/employees/', views.EmployeeTeamView.as_view())
+    path('teams/<int:pk>/employees/', views.EmployeeTeamView.as_view()),
+    path('teams/page/<int:page>/', get_teams_pagination, name='team_pagination'),
 ]
 
 #urlpatterns = format_suffix_patterns(urlpatterns)
