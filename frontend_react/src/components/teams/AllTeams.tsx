@@ -146,6 +146,8 @@ export const AllTeams = () => {
                     navigate(`/teams/page/${value}`);
                     }
                 }
+                boundaryCount={5}
+                siblingCount={5}
             />
         </Container>
     );
