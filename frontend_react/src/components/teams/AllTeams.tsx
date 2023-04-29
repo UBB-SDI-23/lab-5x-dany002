@@ -65,6 +65,53 @@ export const AllTeams = () => {
         setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
     };
 
+
+    const getPaginationCounts = (currentPage: number) => {
+        let boundaryCount = 5;
+        let siblingCount;
+
+        switch (currentPage) {
+            case 1:
+                siblingCount = 0;
+                break;
+            case 2:
+                siblingCount = 0;
+                break;
+            case 3:
+                siblingCount = 1;
+                break;
+            case 4:
+                siblingCount = 1;
+                break;
+            case 5:
+                siblingCount = 2;
+                break;
+            case 6:
+                siblingCount = 2;
+                break;
+            case 7:
+                siblingCount = 3;
+                break;
+            case 8:
+                siblingCount = 3;
+                break;
+            case 9:
+                siblingCount = 4;
+                break;
+            case 10:
+                siblingCount = 4;
+                break;
+            default:
+                siblingCount = 5
+                break;
+        }
+
+        return { boundaryCount, siblingCount };
+    };
+
+    const { boundaryCount, siblingCount } = getPaginationCounts(currentPage);
+
+
     return (
         <Container sx={{maxWidth:"xl", padding: '4em'}}>
 
@@ -146,8 +193,11 @@ export const AllTeams = () => {
                     navigate(`/teams/page/${value}`);
                     }
                 }
-                boundaryCount={5}
-                siblingCount={5}
+                boundaryCount={boundaryCount}
+                siblingCount={siblingCount}
+                showFirstButton
+                showLastButton
+
             />
         </Container>
     );
