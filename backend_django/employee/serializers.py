@@ -14,6 +14,8 @@ class TeamSerializer(serializers.ModelSerializer):
     def validate(self, data):
         if data['freePlaces'] < 0:
             raise serializers.ValidationError("Free places should be >= 0")
+        if data['rating'] < 0 or data['rating'] > 10: # another validation rule
+            raise serializers.ValidationError("Rating has to be between 1 and 10")
         return data
 
     class Meta:
@@ -51,6 +53,11 @@ class EmployeeSerializer(serializers.ModelSerializer):
         if not filter.exists():
             raise serializers.ValidationError("Team doesn't exist!")
         return value
+
+    def validate(self, data):
+        if data['wage'] < 0: # another validation rule
+            raise serializers.ValidationError("Wage cannot be < 0")
+        return data
 
 
     class Meta:
