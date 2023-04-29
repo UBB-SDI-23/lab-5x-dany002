@@ -8,6 +8,7 @@ if __name__ == "__main__":
 
     fake = Faker()
     n = 1000000
+
     with open('populate_team.csv', 'w') as f:
         for i in range(n):
             f.write("'" + date.today().strftime("%Y-%m-%d") + "','" + fake.name() + "'," + random.randint(0,100).__str__() + ",'" + fake.text(max_nb_chars=50).replace('\n',' ') + "','" + fake.name() + "'," + random.randint(1,10).__str__() + '\n')
