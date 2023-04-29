@@ -33,7 +33,7 @@ class ProjectTeamsList(APIView):
             serializer.save()
             return Response(serializer.data, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
- # User review product/1/users;
+
     def post(self, request, pk, format=None):
         try:
             team_id = request.data["team"]
@@ -100,3 +100,43 @@ class EmployeeTeamView(APIView):
             return Response(serializer.data)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
+
+
+class TeamProjectsList(APIView):
+
+    def get_object(self, pk):
+        try:
+            return Task.objects.get(project_id=pk)
+        except Project.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        tasks = Task.objects.all()
+        tasks = tasks.filter(team_id=pk)
+
+        serializer = ProjectTeamSerializer(tasks,many=True)
+        #serializer = TaskSerializer2(tasks, many=True)
+        return Response(serializer.data)
+
+    def post(self, request, format=None):
+        serializer = TaskSerializer2(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def post(self, request, pk, format=None):
+        try:
+            project_id = request.data["project"]
+            team = Team.objects.get(id=pk)
+            project = Project.objects.get(id=project_id)
+            task = Task(project=project, team=team)
+            task.difficulty = request.data.get("difficulty")
+            task.nameOfTask = request.data.get("nameOfTask")
+            task.save()
+            serializer = TaskSerializer2(task)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        except (Team.DoesNotExist, Project.DoesNotExist):
+            return Response({"error" : "Invalid team or project id"}, status=status.HTTP_400_BAD_REQUEST)
+        except Exception as e:
+            return Response({"error" : str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

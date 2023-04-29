@@ -18,6 +18,7 @@ urlpatterns = [
     path('employees/by-avg-difficulty/', views.EmployeesByAvgDifficulty.as_view(), name='employees-by-avg-difficulty'),
     path('teams/<int:pk>/employees/', views.EmployeeTeamView.as_view()),
     path('teams/page/<int:page>/', get_teams_pagination, name='team_pagination'),
+    path('teams/<int:pk>/projects', views.TeamProjectsList.as_view()),
 ]
 
 #urlpatterns = format_suffix_patterns(urlpatterns)
