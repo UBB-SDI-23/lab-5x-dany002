@@ -9,10 +9,10 @@ import {
     CircularProgress,
     Container,
     IconButton,
-    Tooltip, Button
+    Tooltip, Button, Pagination
 } from "@mui/material";
 
-import { Link } from "react-router-dom";
+import {Link, useNavigate, useParams} from "react-router-dom";
 import ReadMoreIcon from "@mui/icons-material/ReadMore";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteForeverIcon from "@mui/icons-material/DeleteForever";
@@ -28,6 +28,14 @@ export const AllProjects = () => {
     const [loading, setLoading] = useState(false);
     const [projects, setProjects] = useState<Project[]>([])
     const etc = `${BACKEND_API_URL}/projects/`;
+    const navigate = useNavigate();
+    const { page } = useParams();
+    const [currentPage, setCurrentPage] = useState(Number(page) || 1);
+    const [totalPages, setTotalPages] = useState(0);
+    const [pageSize, setPageSize] = useState(5);
+
+
+
     console.log(etc);
     useEffect(() => {
         setLoading(true);
@@ -59,6 +67,52 @@ export const AllProjects = () => {
         setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
     };
 
+
+
+    const getPaginationCounts = (currentPage: number) => {
+        let boundaryCount = 5;
+        let siblingCount;
+
+        switch (currentPage) {
+            case 1:
+                siblingCount = 0;
+                break;
+            case 2:
+                siblingCount = 0;
+                break;
+            case 3:
+                siblingCount = 1;
+                break;
+            case 4:
+                siblingCount = 1;
+                break;
+            case 5:
+                siblingCount = 2;
+                break;
+            case 6:
+                siblingCount = 2;
+                break;
+            case 7:
+                siblingCount = 3;
+                break;
+            case 8:
+                siblingCount = 3;
+                break;
+            case 9:
+                siblingCount = 4;
+                break;
+            case 10:
+                siblingCount = 4;
+                break;
+            default:
+                siblingCount = 5
+                break;
+        }
+
+        return { boundaryCount, siblingCount };
+    };
+
+    const { boundaryCount, siblingCount } = getPaginationCounts(currentPage);
 
     return (
         <Container sx={{maxWidth:"xl", padding: '4em'}}>
@@ -130,6 +184,20 @@ export const AllProjects = () => {
                     </Table>
                 </TableContainer>
             )}
+            <Pagination
+                count={totalPages}
+                page={currentPage}
+                onChange={(event, value) => {
+                    setCurrentPage(value);
+                    navigate(`/teams/page/${value}`);
+                }
+                }
+                boundaryCount={boundaryCount}
+                siblingCount={siblingCount}
+                showFirstButton
+                showLastButton
+
+            />
         </Container>
     );
 };

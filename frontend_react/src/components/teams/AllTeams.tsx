@@ -22,6 +22,7 @@ import AddIcon from "@mui/icons-material/Add";
 import React, {useEffect, useState} from "react";
 import {Team} from "../../models/Team";
 import {BACKEND_API_URL} from "../../constants";
+import TableCellForCountingProjectsForATeam from "../Utils/TableCellForCountingProjectsForATeam";
 
 
 export const AllTeams = () => {
@@ -142,6 +143,7 @@ export const AllTeams = () => {
                                 <TableCell align="right">Purpose</TableCell>
                                 <TableCell align="right">Admin</TableCell>
                                 <TableCell align="right">Rating</TableCell>
+                                <TableCell align="right">Number of tasks</TableCell>
                                 <TableCell align="center">Operations</TableCell>
                             </TableRow>
                         </TableHead>
@@ -161,6 +163,9 @@ export const AllTeams = () => {
                                     <TableCell align="right">{team.purpose}</TableCell>
                                     <TableCell align="right">{team.admin}</TableCell>
                                     <TableCell align="right">{team.rating}</TableCell>
+                                    <TableCellForCountingProjectsForATeam id={team.id}/>
+                                    {/*<TableCell>WOW</TableCell>*/}
+
                                     <TableCell align="right">
                                         <IconButton
                                             component={Link}
