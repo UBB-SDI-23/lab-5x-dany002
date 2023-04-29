@@ -58,12 +58,29 @@ def get_teams_pagination(request, page=1):
     # calculate the total number of pages
     total_pages = (team_members.count() + items_per_page - 1) // items_per_page
 
+    # calculate the range of pages to display in the pagination bar
+    max_pages = 10 # the maximum number of pages to display in the pagination bar
+    half_max_pages = max_pages // 2
+    if total_pages <= max_pages:
+        # if there are fewer pages than the maximum, show all of them
+        page_range = range(1, total_pages + 1)
+    elif page <= half_max_pages:
+        # if the current page is close to the beginning, show the first max_pages pages
+        page_range = range(1, max_pages + 1)
+    elif page > total_pages - half_max_pages:
+        # if the current page is close to the end, show the last max_pages pages
+        page_range = range(total_pages - max_pages + 1, total_pages + 1)
+    else:
+        # otherwise, show the current page and the pages before and after it
+        page_range = range(page - half_max_pages, page + half_max_pages + 1)
+
     # create a dictionary containing the paginated data
     data = {
         'team_members': list(team_members_slice.values()),
         'current_page': page,
         'total_pages': total_pages,
-        'items_per_page': items_per_page
+        'items_per_page': items_per_page,
+        'page_range': list(page_range),
     }
 
     # return the paginated data as a JSON response
