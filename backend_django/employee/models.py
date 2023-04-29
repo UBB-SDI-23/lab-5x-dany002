@@ -9,7 +9,6 @@ class Team(models.Model):
     purpose = models.CharField(max_length=200)
     admin = models.CharField(max_length=200)
     rating = models.IntegerField()
-    description = models.CharField(max_length=100)
 
     def __str__(self):
         return self.nameOfTeam

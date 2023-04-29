@@ -225,4 +225,4 @@ class TeamDetailSerializer(DynamicFieldsModelSerializer):
 
     class Meta:
         model = Team
-        fields = ['created','nameOfTeam', 'freePlaces', 'purpose', 'admin', 'rating','description', 'teamTask', 'teamEmployee']
+        fields = ['created','nameOfTeam', 'freePlaces', 'purpose', 'admin', 'rating', 'teamTask', 'teamEmployee']
